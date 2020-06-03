@@ -6,8 +6,16 @@ import {SearchBar, VideoList, VideoDetail} from './components';
 class App extends Component {
 
   state = {
-    video: [],
+    videos: [],
     selectedVideo: null,
+  }
+
+  componentDidMount(){
+    this.handleSubmit('dogs')
+  }
+
+  onVideoSelect = (video) => {
+    this.setState({selectedVideo: video})
   }
 
   handleSubmit = async (searchTerm) => {
@@ -20,11 +28,11 @@ class App extends Component {
   }
   });
 
-    this.setState({video: response.data.items, selectedVideo: response.data.items[0] })
+    this.setState({videos: response.data.items, selectedVideo: response.data.items[0] })
   }
 
   render(){
-    const { selectedVideo } = this.state;
+    const { selectedVideo, videos } = this.state;
     return (
       <Grid container spacing={10}>
         <Grid item xs={12}>
@@ -36,7 +44,7 @@ class App extends Component {
               <VideoDetail video={selectedVideo}/>
             </Grid>
             <Grid item xs={4}>
-              {/*Video list*/}
+              <VideoList videos={videos} onVideoSelect={this.onVideoSelect}/>
             </Grid>
           </Grid>
         </Grid>
